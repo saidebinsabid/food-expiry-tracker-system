@@ -3,7 +3,8 @@
 A full-stack web application that helps users track food items, receive expiry alerts, and reduce food waste. Built using **React**, **Firebase Authentication**, **Express.js**, and **MongoDB**, this system ensures secure, intuitive, and mobile-responsive food management.
 
 ---
-
+![Banner](https://github.com/saidebinsabid/food-expiry-tracker-system/blob/main/ecofridge.netlify.app_.png)
+---
 ## 🌐 Live Demo
 
 👉 [Click here to view the live site](https://ecofridge.netlify.app/)
