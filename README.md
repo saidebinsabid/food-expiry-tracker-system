@@ -5,7 +5,7 @@ A full-stack web application that helps users track food items, receive expiry a
 ---
 
 ---
-![Banner]()
+![Banner](https://github.com/saidebinsabid/food-expiry-tracker-system/blob/main/ecofridge.png)
 ---
 
 
