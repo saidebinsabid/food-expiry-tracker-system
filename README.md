@@ -4,6 +4,11 @@ A full-stack web application that helps users track food items, receive expiry a
 
 ---
 
+---
+![Banner]()
+---
+
+
 ## 🌐 Live Demo
 
 👉 [Click here to view the live site](https://ecofridge.netlify.app/)
