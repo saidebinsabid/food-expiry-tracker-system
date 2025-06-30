@@ -13,7 +13,7 @@ const Navbar = () => {
     return <Loading></Loading>;
   }
   return (
-    <div className="navbar bg-[#0a472e] shadow-sm font-roboto">
+    <div className="bg-[#0a472e] sticky top-0 z-50 shadow-sm font-roboto">
       <div className="w-11/12 mx-auto flex justify-between items-center">
         <div className="navbar-start">
           <div className="flex justify-center items-center text-white py-4">
@@ -50,6 +50,31 @@ const Navbar = () => {
                 }
               >
                 Fridge
+              </NavLink>
+            </li>
+
+            <li>
+              <NavLink
+                to="/about"
+                className={({ isActive }) =>
+                  isActive
+                    ? "font-semibold text-[#a8b324] border-b-2"
+                    : "text-white "
+                }
+              >
+                About
+              </NavLink>
+            </li>
+            <li>
+              <NavLink
+                to="/faq"
+                className={({ isActive }) =>
+                  isActive
+                    ? "font-semibold text-[#a8b324] border-b-2"
+                    : "text-white "
+                }
+              >
+                Faq
               </NavLink>
             </li>
 
@@ -191,6 +216,16 @@ const Navbar = () => {
                     </Link>
                   </li>
                   <li>
+                    <Link to="/about" className="text-[#0a472e]">
+                      About
+                    </Link>
+                  </li>
+                  <li>
+                    <Link to="/faq" className="text-[#0a472e]">
+                      Faq
+                    </Link>
+                  </li>
+                  <li>
                     <Link to="/addFood" className="text-[#0a472e]">
                       Add Food
                     </Link>
@@ -239,6 +274,12 @@ const Navbar = () => {
                 </li>
                 <li>
                   <Link to="/fridge">Fridge</Link>
+                </li>
+                <li>
+                  <Link to="/about">About</Link>
+                </li>
+                <li>
+                  <Link to="/faq">Faq</Link>
                 </li>
                 <li>
                   <Link to="/auth/login">Login</Link>

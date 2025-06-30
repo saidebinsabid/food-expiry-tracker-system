@@ -39,7 +39,7 @@ const Item = ({ title, children }) => {
   );
 };
 
-export const Faq = () => {
+export const FaqFaqSection = () => {
   const [faqs, setFaqs] = useState([]);
 
   useEffect(() => {

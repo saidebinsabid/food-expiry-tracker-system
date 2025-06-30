@@ -1,10 +1,11 @@
 import React from 'react';
 import Hero from '../Components/Hero';
 import NearlyExpiryItems from '../Components/NearlyExpiryItems';
-import { Faq } from '../Components/Faq';
+
 import AboutUs from '../Components/AboutUs';
 import ExpiredFoodItems from '../Components/ExpiredFoodItems';
 import CountUpFood from '../Components/CountUpFood';
+import { FaqFaqSection } from '../Components/FaqSection';
 
 const Home = () => {
     return (
@@ -14,7 +15,7 @@ const Home = () => {
             <AboutUs></AboutUs>
             <ExpiredFoodItems></ExpiredFoodItems>
             <CountUpFood></CountUpFood>
-            <Faq></Faq>
+            <FaqFaqSection></FaqFaqSection>
         </>
     );
 };

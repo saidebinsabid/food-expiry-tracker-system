@@ -8,9 +8,11 @@ import AuthLayout from "../Layouts/AuthLayout";
 import PrivateRoute from "../Provider/PrivateRoutes";
 import AddFood from "../Pages/AddFood";
 import MyItems from "../Pages/MyItems";
-import Loading from "../Pages/Loading";
 import FoodDetails from "../Pages/FoodDetails";
 import ErrorPage from "../Pages/ErrorPage";
+import About from "../Pages/About";
+import Faq from "../Pages/Faq";
+
 
 const router = createBrowserRouter([
   {
@@ -24,6 +26,14 @@ const router = createBrowserRouter([
       {
         path: "/fridge",
         element: <Fridge></Fridge>,
+      },
+      {
+        path: "/about",
+        element: <About></About>,
+      },
+      {
+        path: "/faq",
+        element: <Faq></Faq>,
       },
       {
         path: "foodDetails/:id",
