@@ -1,13 +1,17 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import axios from "axios";
-import { useEffect, useState } from "react";
 import Loading from "../Pages/Loading";
 import { MdOutlineAssignmentTurnedIn } from "react-icons/md";
+import { FaArrowLeft, FaArrowRight } from "react-icons/fa";
+
 import ExpiredFoodItemCard from "./ExpiredFoodItemCard";
+
 const ExpiredFoodItems = () => {
   const [expiredFoods, setExpiredFoods] = useState([]);
   const [loading, setLoading] = useState(true);
 
+  const [currentPage, setCurrentPage] = useState(1);
+  const itemsPerPage = 6;
   useEffect(() => {
     axios
       .get(`${import.meta.env.VITE_API_URL}/expired-food-items`)
@@ -21,7 +25,19 @@ const ExpiredFoodItems = () => {
       });
   }, []);
 
-  if (loading) return <Loading></Loading>;
+  if (loading) return <Loading />;
+  const totalPages = Math.ceil(expiredFoods.length / itemsPerPage);
+  const startIndex = (currentPage - 1) * itemsPerPage;
+  const paginatedFoods = expiredFoods.slice(
+    startIndex,
+    startIndex + itemsPerPage
+  );
+
+  const handlePageChange = (pageNumber) => {
+    if (pageNumber >= 1 && pageNumber <= totalPages) {
+      setCurrentPage(pageNumber);
+    }
+  };
 
   return (
     <div className="w-11/12 mx-auto pb-24">
@@ -35,6 +51,7 @@ const ExpiredFoodItems = () => {
           food safety.
         </p>
       </div>
+
       {expiredFoods.length === 0 ? (
         <div className="flex flex-col items-center justify-center text-center p-8 bg-green-100 rounded-lg shadow-sm md:w-1/2 md:mx-auto">
           <MdOutlineAssignmentTurnedIn className="text-5xl text-gray-400 mb-4" />
@@ -45,18 +62,53 @@ const ExpiredFoodItems = () => {
             Great job! You have no expired food items at the moment.
           </p>
         </div>
-      ) : expiredFoods.length < 4 ? (
-        <div className="flex flex-wrap justify-center gap-4">
-          {expiredFoods.map((food) => (
-            <ExpiredFoodItemCard key={food._id} food={food} />
-          ))}
-        </div>
       ) : (
-        <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-4">
-          {expiredFoods.map((food) => (
-            <ExpiredFoodItemCard key={food._id} food={food} />
-          ))}
-        </div>
+        <>
+          <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-3 gap-4">
+            {paginatedFoods.map((food) => (
+              <ExpiredFoodItemCard key={food._id} food={food} />
+            ))}
+          </div>
+
+          <div className="flex justify-center items-center gap-2 mt-8">
+            <button
+              onClick={() => handlePageChange(currentPage - 1)}
+              disabled={currentPage === 1}
+              className={`p-2 rounded-full border ${
+                currentPage === 1
+                  ? "opacity-50 cursor-not-allowed"
+                  : "hover:bg-green-200"
+              }`}
+            >
+              <FaArrowLeft />
+            </button>
+            {Array.from({ length: totalPages }, (_, index) => (
+              <button
+                key={index}
+                onClick={() => handlePageChange(index + 1)}
+                className={`w-10 h-10 rounded-full flex items-center justify-center border font-semibold transition-colors duration-300
+                  ${
+                    currentPage === index + 1
+                      ? "bg-green-500 text-white"
+                      : "bg-white hover:bg-green-200"
+                  }`}
+              >
+                {index + 1}
+              </button>
+            ))}
+            <button
+              onClick={() => handlePageChange(currentPage + 1)}
+              disabled={currentPage === totalPages}
+              className={`p-2 rounded-full border ${
+                currentPage === totalPages
+                  ? "opacity-50 cursor-not-allowed"
+                  : "hover:bg-green-200"
+              }`}
+            >
+              <FaArrowRight />
+            </button>
+          </div>
+        </>
       )}
     </div>
   );
