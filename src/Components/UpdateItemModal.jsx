@@ -157,23 +157,6 @@ const UpdateItemModal = ({ show, onClose, item, user, onUpdate }) => {
                 className="w-full border border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-green-500"
               />
             </div>
-
-            {/* User Email (read-only) */}
-            <div>
-              <label className="block mb-1 font-medium" htmlFor="userEmail">
-                User Email
-              </label>
-              <input
-                type="email"
-                id="useremail"
-                name="email"
-                value={formData.email}
-                readOnly
-                className="w-full bg-gray-100 border border-gray-300 rounded px-3 py-2 cursor-not-allowed"
-              />
-            </div>
-
-            {/* Buttons */}
             <div className="flex justify-end gap-3 pt-4">
               <button
                 type="button"
