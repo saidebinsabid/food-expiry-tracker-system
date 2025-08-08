@@ -129,6 +129,19 @@ const Footer = () => {
                   </NavLink>
                 </li>
 
+                <li>
+                  <NavLink
+                    to="/about"
+                    className={({ isActive }) =>
+                      isActive
+                        ? "font-semibold text-[#a8b324] border-b-2"
+                        : "text-gray-300"
+                    }
+                  >
+                    About
+                  </NavLink>
+                </li>
+
                 {user && (
                   <>
                     <li>

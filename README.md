@@ -46,7 +46,7 @@ It's designed with user experience, responsiveness, and real-world use in mind, 
   - Expired badge display and “See Details” button
 
 - 📉 **Nearly Expiry Section**
-  - Auto-fetches items expiring within the next 5 days
+  - Auto-fetches items expiring within the next 2 years
 
 - 💀 **Expired Food Section**
   - Lists all food that has already expired

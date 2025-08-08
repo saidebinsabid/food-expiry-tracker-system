@@ -42,7 +42,6 @@ const NearlyExpiryItemsCard = ({ item }) => {
               })
             : "Date not available"}
         </div>
-        {/* <span>||</span> */}
         <span>Category: {foodCategory}</span>
       </div>
 

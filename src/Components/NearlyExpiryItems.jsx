@@ -114,7 +114,7 @@ const NearlyExpiryItems = () => {
         ref={sectionRef}
         onMouseMove={handleMouseMove}
         onMouseLeave={handleMouseLeave}
-        className="relative z-10 w-11/12 mx-auto py-24 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6"
+        className="relative z-10 w-11/12 mx-auto py-24 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"
       >
         <div className="col-span-full text-center mb-12">
           <h2 className="text-4xl font-bold text-green-800 mb-2">
