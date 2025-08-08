@@ -130,7 +130,6 @@ const MyItems = () => {
         </div>
       ) : (
         <>
-          {/* Table */}
           <div className="overflow-x-auto w-full">
             <table className="table">
               <thead>
@@ -214,7 +213,6 @@ const MyItems = () => {
             </table>
           </div>
           <div className="flex justify-center items-center gap-2 mt-6">
-            {/* Left Arrow */}
             <button
               onClick={() => handlePageChange(currentPage - 1)}
               disabled={currentPage === 1}
@@ -233,7 +231,7 @@ const MyItems = () => {
                 className={`w-10 h-10 rounded-full flex items-center justify-center border font-semibold transition-colors duration-300
                   ${
                     currentPage === index + 1
-                      ? "bg-green-500 text-white"
+                      ? "bg-green-900 text-white"
                       : "bg-white hover:bg-green-200"
                   }`}
               >
