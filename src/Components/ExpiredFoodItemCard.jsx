@@ -22,14 +22,22 @@ const ExpiredFoodItemCard = ({ food }) => {
       controls.start({ opacity: 0, y: 50 });
     }
   }, [controls, inView]);
+
   return (
     <motion.div
       ref={ref}
       initial={{ opacity: 0, y: 50 }}
       animate={controls}
-      className="group bg-base-200 px-6 space-y-4 rounded hover:shadow-2xl font-lexend relative"
+      className="group bg-base-200 px-6 space-y-4 rounded hover:shadow-2xl font-lexend relative overflow-hidden"
     >
-      <img className="w-72 h-60 py-8 mx-auto" src={foodImageUrl} alt={title} />
+      <motion.img
+        className="w-72 h-60 py-8 mx-auto"
+        src={foodImageUrl}
+        alt={title}
+        animate={{ scale: 1 }}
+        whileHover={{ scale: 1.1 }}
+        transition={{ duration: 0.4, ease: "easeOut" }}
+      />
 
       <h1 className="text-xl font-semibold">{title}</h1>
 

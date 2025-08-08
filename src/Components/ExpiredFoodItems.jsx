@@ -89,7 +89,7 @@ const ExpiredFoodItems = () => {
                 className={`w-10 h-10 rounded-full flex items-center justify-center border font-semibold transition-colors duration-300
                   ${
                     currentPage === index + 1
-                      ? "bg-green-500 text-white"
+                      ? "bg-green-900 text-white"
                       : "bg-white hover:bg-green-200"
                   }`}
               >
