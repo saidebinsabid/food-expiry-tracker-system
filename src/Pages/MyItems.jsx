@@ -3,12 +3,12 @@ import { AuthContext } from "../Provider/AuthProvider";
 import Loading from "./Loading";
 import { TiStopwatch } from "react-icons/ti";
 import { GrUpdate } from "react-icons/gr";
-import { MdDeleteForever } from "react-icons/md";
-import { MdOutlineAssignmentTurnedIn } from "react-icons/md";
-import UpdateItemModal from "../Components/UpdateItemModal";
+import { MdDeleteForever, MdOutlineAssignmentTurnedIn } from "react-icons/md";
 import { MdAddShoppingCart } from "react-icons/md";
 import Swal from "sweetalert2";
 import useAxiosSecure from "../Hooks/useAxiosSecure";
+import UpdateItemModal from "../Components/UpdateItemModal";
+import { FaArrowLeft, FaArrowRight } from "react-icons/fa";
 
 const MyItems = () => {
   const { user } = useContext(AuthContext);
@@ -17,20 +17,31 @@ const MyItems = () => {
   const [loading, setLoading] = useState(true);
   const [showModal, setShowModal] = useState(false);
   const [updateitem, setUpdateitem] = useState(null);
+  const [currentPage, setCurrentPage] = useState(1);
+  const itemsPerPage = 3;
+
   useEffect(() => {
-    // console.log("Current user:", user);
     if (user?.email) {
       setLoading(true);
       axiosSecure
         .get(`/my-food-items?email=${user.email}`)
         .then((res) => {
-          // console.log("API Response:", res.data);
           setMyItems(res.data);
           setLoading(false);
         })
         .catch(() => setLoading(false));
     }
   }, [user, axiosSecure]);
+  const totalPages = Math.ceil(myItems.length / itemsPerPage);
+  const startIndex = (currentPage - 1) * itemsPerPage;
+  const paginatedItems = myItems.slice(startIndex, startIndex + itemsPerPage);
+
+  const handlePageChange = (page) => {
+    if (page >= 1 && page <= totalPages) {
+      setCurrentPage(page);
+    }
+  };
+
   const handleUpdate = async (updatedData) => {
     try {
       const res = await axiosSecure.put(
@@ -42,9 +53,7 @@ const MyItems = () => {
           },
         }
       );
-
       const data = res.data;
-
       if (data.modifiedCount > 0) {
         Swal.fire("Success!", "Food Item updated successfully.", "success");
         setMyItems((prev) =>
@@ -95,7 +104,8 @@ const MyItems = () => {
     });
   };
 
-  if (loading) return <Loading></Loading>;
+  if (loading) return <Loading />;
+
   return (
     <div className="w-11/12 mx-auto py-24 font-roboto">
       <div className="text-center">
@@ -107,6 +117,7 @@ const MyItems = () => {
           expiry dates and reduce waste with timely updates.
         </p>
       </div>
+
       {myItems.length === 0 ? (
         <div className="flex flex-col items-center justify-center text-center p-8 bg-white rounded-lg shadow-sm">
           <MdOutlineAssignmentTurnedIn className="text-5xl text-gray-400 mb-4" />
@@ -118,91 +129,131 @@ const MyItems = () => {
           </p>
         </div>
       ) : (
-        <div className="overflow-x-auto w-full">
-          <table className="table">
-            {/* head */}
-            <thead>
-              <tr>
-                <th>#</th>
-                <th>Food Image</th>
-                <th>Title</th>
-                <th>Category</th>
-                <th>Item Quantity</th>
-                <th>Expire Date</th>
-                <th>Action</th>
-              </tr>
-            </thead>
-            <tbody>
-              {myItems.map((item, index) => {
-                return (
-                  <tr key={item._id}>
-                    <td>{index + 1}</td>
-                    <td>
-                      <div className="bg-base-300 h-20 w-20 rounded-2xl">
-                        <img
-                          className="h-20 w-20 p-3"
-                          src={item.foodImageUrl}
-                          alt={item.title}
-                        />
-                      </div>
-                    </td>
-                    <td>
-                      <div>
-                        <div className="font-semibold text-lg">
-                          {item.title}
+        <>
+          {/* Table */}
+          <div className="overflow-x-auto w-full">
+            <table className="table">
+              <thead>
+                <tr>
+                  <th>#</th>
+                  <th>Food Image</th>
+                  <th>Title</th>
+                  <th>Category</th>
+                  <th>Item Quantity</th>
+                  <th>Expire Date</th>
+                  <th>Action</th>
+                </tr>
+              </thead>
+              <tbody>
+                {paginatedItems.map((item, index) => {
+                  return (
+                    <tr key={item._id}>
+                      <td>{startIndex + index + 1}</td>
+                      <td>
+                        <div className="bg-base-300 h-20 w-20 rounded-2xl">
+                          <img
+                            className="h-20 w-20 p-3"
+                            src={item.foodImageUrl}
+                            alt={item.title}
+                          />
                         </div>
-                      </div>
-                    </td>
-                    <td>{item.foodCategory}</td>
-                    <td>
-                      <div className="flex gap-2 text-green-900 relative">
-                        <MdAddShoppingCart size={20} />
-                        <span className="font-semibold">{item.quantity}</span>
-                      </div>
-                    </td>
-                    <td>
-                      <div className="flex gap-2 items-center">
-                        <TiStopwatch size={20} />
-                        {item.expiryDate
-                          ? new Date(item.expiryDate).toLocaleDateString(
-                              "en-US",
-                              {
-                                year: "numeric",
-                                month: "short",
-                                day: "numeric",
-                              }
-                            )
-                          : "Date not available"}
-                      </div>
-                    </td>
-                    <td className="space-y-3">
-                      <button
-                        onClick={() => {
-                          setUpdateitem(item);
-                          setShowModal(true);
-                        }}
-                        className="flex items-center gap-1 text-white text-xs px-4 py-1 rounded-full bg-gradient-to-r from-green-500 to-lime-600 hover:from-lime-600 hover:to-green-500 shadow-md transition-all"
-                      >
-                        <GrUpdate className="text-sm" />
-                        Update
-                      </button>
+                      </td>
+                      <td>
+                        <div>
+                          <div className="font-semibold text-lg">
+                            {item.title}
+                          </div>
+                        </div>
+                      </td>
+                      <td>{item.foodCategory}</td>
+                      <td>
+                        <div className="flex gap-2 text-green-900 relative">
+                          <MdAddShoppingCart size={20} />
+                          <span className="font-semibold">{item.quantity}</span>
+                        </div>
+                      </td>
+                      <td>
+                        <div className="flex gap-2 items-center">
+                          <TiStopwatch size={20} />
+                          {item.expiryDate
+                            ? new Date(item.expiryDate).toLocaleDateString(
+                                "en-US",
+                                {
+                                  year: "numeric",
+                                  month: "short",
+                                  day: "numeric",
+                                }
+                              )
+                            : "Date not available"}
+                        </div>
+                      </td>
+                      <td className="space-y-3">
+                        <button
+                          onClick={() => {
+                            setUpdateitem(item);
+                            setShowModal(true);
+                          }}
+                          className="flex items-center gap-1 text-white text-xs px-4 py-1 rounded-full bg-gradient-to-r from-green-500 to-lime-600 hover:from-lime-600 hover:to-green-500 shadow-md transition-all"
+                        >
+                          <GrUpdate className="text-sm" />
+                          Update
+                        </button>
 
-                      <button
-                        onClick={() => handleDelete(item._id)}
-                        className="flex items-center gap-1 text-white text-xs px-4 py-1 rounded-full bg-gradient-to-r from-rose-500 to-red-600 hover:from-red-600 hover:to-rose-500 shadow-md transition-all"
-                      >
-                        <MdDeleteForever className="text-sm" />
-                        Delete
-                      </button>
-                    </td>
-                  </tr>
-                );
-              })}
-            </tbody>
-          </table>
-        </div>
+                        <button
+                          onClick={() => handleDelete(item._id)}
+                          className="flex items-center gap-1 text-white text-xs px-4 py-1 rounded-full bg-gradient-to-r from-rose-500 to-red-600 hover:from-red-600 hover:to-rose-500 shadow-md transition-all"
+                        >
+                          <MdDeleteForever className="text-sm" />
+                          Delete
+                        </button>
+                      </td>
+                    </tr>
+                  );
+                })}
+              </tbody>
+            </table>
+          </div>
+          <div className="flex justify-center items-center gap-2 mt-6">
+            {/* Left Arrow */}
+            <button
+              onClick={() => handlePageChange(currentPage - 1)}
+              disabled={currentPage === 1}
+              className={`p-2 rounded-full border ${
+                currentPage === 1
+                  ? "opacity-50 cursor-not-allowed"
+                  : "hover:bg-green-200"
+              }`}
+            >
+              <FaArrowLeft />
+            </button>
+            {Array.from({ length: totalPages }, (_, index) => (
+              <button
+                key={index}
+                onClick={() => handlePageChange(index + 1)}
+                className={`w-10 h-10 rounded-full flex items-center justify-center border font-semibold transition-colors duration-300
+                  ${
+                    currentPage === index + 1
+                      ? "bg-green-500 text-white"
+                      : "bg-white hover:bg-green-200"
+                  }`}
+              >
+                {index + 1}
+              </button>
+            ))}
+            <button
+              onClick={() => handlePageChange(currentPage + 1)}
+              disabled={currentPage === totalPages}
+              className={`p-2 rounded-full border ${
+                currentPage === totalPages
+                  ? "opacity-50 cursor-not-allowed"
+                  : "hover:bg-green-200"
+              }`}
+            >
+              <FaArrowRight />
+            </button>
+          </div>
+        </>
       )}
-      {/* Modal */}
       <UpdateItemModal
         show={showModal}
         onClose={() => setShowModal(false)}
